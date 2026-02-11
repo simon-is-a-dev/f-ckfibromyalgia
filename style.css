@@ -32,7 +32,8 @@ body {
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
+    /* Prevents getting trapped */
 }
 
 /* Typography - Swiss Style */
@@ -248,8 +249,18 @@ main {
 }
 
 /* Story Section */
-.story-section {
+.story-section,
+.frogsy-narrative-section {
     background: var(--secondary-color);
+}
+
+.story-content {
+    max-width: 800px;
+}
+
+.frogsy-narrative-section .story-content {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 40px;
 }
 
 .story-content {
@@ -260,6 +271,8 @@ main {
     margin-bottom: 24px;
     font-size: 1.25rem;
 }
+
+
 
 /* Actions Section */
 .actions-section {
@@ -310,6 +323,8 @@ main {
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 30px;
+    flex-grow: 1;
+    /* Push button to bottom */
 }
 
 .btn {
@@ -332,14 +347,52 @@ main {
 
 /* Footer */
 footer {
-    padding: 60px 0;
-    text-align: center;
+    padding: 80px 0;
     background: #000;
     color: #fff;
+    text-align: left;
+    border-top: 1px solid #222;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-brand {
     font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.footer-links {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-links a {
+    color: #888;
+    text-decoration: none;
     text-transform: uppercase;
     font-size: 0.9rem;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+.copyright {
+    color: #444;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
 }
 
 /* Utilities */
@@ -355,8 +408,17 @@ footer {
 }
 
 @media (max-width: 900px) {
-    .content-block {
-        grid-template-columns: 1fr;
+
+    .content-block,
+    .align-center {
+        flex-direction: column;
+        display: flex;
+        gap: 40px;
+        text-align: left;
+    }
+
+    .frogsy-visual {
+        width: 100%;
     }
 
     h1 {
