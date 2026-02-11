@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ---------------------------------------------
-    // Ambient Mesh Background (The "Premium" Feel)
+    // Ambient Mesh Background (Swiss Edition)
     // ---------------------------------------------
     const canvas = document.createElement('canvas');
     canvas.id = 'ambient-mesh';
@@ -17,12 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let width, height;
 
     // Configuration for the mesh
-    // Retro/Neobrutalism Palette Blobs
+    // "Popping but not the star"
+    // Mostly subtle greys/whites with occasional Red accent
     const blobs = [
-        { x: 0, y: 0, vx: 0.3, vy: 0.2, r: 0, color: 'rgba(117, 202, 195, 0.5)' }, // Aqua (#75CAC3)
-        { x: 0, y: 0, vx: -0.2, vy: 0.3, r: 0, color: 'rgba(243, 69, 115, 0.4)' }, // Pink (#F34573)
-        { x: 0, y: 0, vx: 0.2, vy: -0.2, r: 0, color: 'rgba(42, 97, 113, 0.2)' }, // Dark Teal (#2A6171)
-        { x: 0, y: 0, vx: -0.1, vy: -0.1, r: 0, color: 'rgba(255, 255, 255, 0.6)' } // White Pop
+        { x: 0, y: 0, vx: 0.1, vy: 0.1, r: 0, color: 'rgba(187, 44, 44, 0.34)' }, // Grey
+        { x: 0, y: 0, vx: -0.1, vy: 0.2, r: 0, color: 'rgba(240, 240, 240, 0.5)' }, // White
+        { x: 0, y: 0, vx: 0.1, vy: -0.1, r: 0, color: 'rgba(185, 27, 59, 0.08)' }, // Red Tint (Very subtle)
+        { x: 0, y: 0, vx: -0.2, vy: -0.2, r: 0, color: 'rgba(220, 220, 220, 0.2)' } // Silver
     ];
 
     function resize() {
@@ -31,37 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = width;
         canvas.height = height;
 
-        // Initialize blob positions and massive sizes
         blobs.forEach(b => {
-            if (b.r === 0) { // Only set random pos on first init
+            if (b.r === 0) {
                 b.x = Math.random() * width;
                 b.y = Math.random() * height;
             }
-            // Size relative to screen (mesh effect)
-            b.r = Math.max(width, height) * 0.6;
+            b.r = Math.max(width, height) * 0.7; // Large wash
         });
     }
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
 
-        // Create base background match
-        ctx.fillStyle = '#D7F7F5';
+        // Pure White Base
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, width, height);
 
         blobs.forEach(b => {
-            // Update position
             b.x += b.vx;
             b.y += b.vy;
 
-            // Soft bounce
             if (b.x < -b.r / 2 || b.x > width + b.r / 2) b.vx *= -1;
             if (b.y < -b.r / 2 || b.y > height + b.r / 2) b.vy *= -1;
 
-            // Draw gradient blob
             const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
             g.addColorStop(0, b.color);
-            g.addColorStop(1, 'rgba(215, 247, 245, 0)'); // Fade to bg
+            g.addColorStop(1, 'rgba(255,255,255,0)');
 
             ctx.fillStyle = g;
             ctx.beginPath();
@@ -77,18 +73,38 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
 
     // ---------------------------------------------
-    // Scroll Interactions (Logo & Header)
+    // Scroll Interactions & Parallax effect
     // ---------------------------------------------
-    const logo = document.querySelector('.logo');
+    const navbar = document.querySelector('.navbar');
     const heroSection = document.querySelector('.hero-section');
+    const heroContent = document.querySelector('.hero-content');
 
     window.addEventListener('scroll', () => {
-        const triggerPoint = heroSection.offsetHeight * 0.5;
+        // Safety check
+        if (!heroSection) return;
 
-        if (window.scrollY > triggerPoint) {
-            logo.classList.add('scrolled-visible');
-        } else {
-            logo.classList.remove('scrolled-visible');
+        const scrollP = window.scrollY;
+        const heroHeight = heroSection.offsetHeight;
+
+        // Show navbar only after leaving hero
+        const triggerPoint = heroHeight - 100;
+
+        if (navbar) {
+            if (scrollP > triggerPoint) {
+                navbar.classList.add('scrolled-visible');
+            } else {
+                navbar.classList.remove('scrolled-visible');
+            }
+        }
+
+        // Parallax Scale-Down Effect
+        // Only apply while hero is visible (optimization)
+        if (heroContent && scrollP < heroHeight) {
+            const scale = 1 - (scrollP / heroHeight) * 0.25; // Scale down 25%
+            const opacity = 1 - (scrollP / heroHeight) * 1.5; // Fade out faster
+
+            heroContent.style.transform = `scale(${scale})`;
+            heroContent.style.opacity = Math.max(0, opacity);
         }
     });
 
@@ -106,6 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Also make the Explore button scroll
+    document.querySelector('.scroll-indicator').addEventListener('click', () => {
+        document.querySelector('#condition').scrollIntoView({ behavior: 'smooth' });
+    });
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -113,9 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.1 });
 
-    document.querySelectorAll('section, .card, .content-block, .hero-content').forEach(el => {
+    document.querySelectorAll('section, .card, .content-block').forEach(el => {
         el.classList.add('reveal');
         observer.observe(el);
     });
