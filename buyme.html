@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=https://www.afsafund.org/">
+    <title>Buy Me a Coffee | The Fibromyalgia Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="buyme-body">
+
+    <div class="message-card">
+        <div class="buyme-icon">☕</div>
+        <h2>Hey!</h2>
+        <p class="buyme-lead">
+            That's not setup yet.
+        </p>
+        <p class="buyme-text">
+            But please, donate to <strong>The American Fibromyalgia Syndrome Association</strong> instead.
+        </p>
+
+        <p class="buyme-subtext">Redirecting you to AFSA in <span id="countdown">5</span> seconds...</p>
+
+        <a href="https://www.afsafund.org/" class="btn-buyme">Donate Now</a>
+    </div>
+
+    <script>
+        let seconds = 5;
+        const countdownEl = document.getElementById('countdown');
+        setInterval(() => {
+            seconds--;
+            if (seconds > 0) {
+                countdownEl.innerText = seconds;
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
