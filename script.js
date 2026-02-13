@@ -146,4 +146,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yearEl) {
         yearEl.textContent = new Date().getFullYear();
     }
+
+    // ---------------------------------------------
+    // Ripple Effect
+    // ---------------------------------------------
+    function createRipple(event) {
+        const button = event.currentTarget;
+
+        // Create ripple element
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+        circle.classList.add("ripple");
+
+        // Remove existing ripple if any (though usually we want multiple to be possible, 
+        // removing simplifies ensuring cleanup. For multiple, we'd remove after animation ends)
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+            ripple.remove();
+        }
+
+        button.appendChild(circle);
+    }
+
+    const buttons = document.querySelectorAll(".btn, .btn-frogsy, button");
+    for (const button of buttons) {
+        button.addEventListener("click", createRipple);
+    }
 });

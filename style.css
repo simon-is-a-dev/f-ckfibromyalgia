@@ -474,30 +474,9 @@ body.frogsy-theme .text-bad {
     border-bottom: 1px solid #e0f2f1;
 }
 
-.frogsy-video-container {
-    background: #004d40;
-    /* Dark Teal */
-    width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16/9;
-    margin: 40px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0, 137, 123, 0.25);
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #4db6ac;
-}
 
-.video-placeholder-text {
-    color: #b2dfdb;
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+
+
 
 /* Nice Looking Button */
 /* Nice Looking Button - Flat & Solid */
@@ -523,6 +502,30 @@ body.frogsy-theme .text-bad {
     /* Darker teal on hover */
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 137, 123, 0.2);
+}
+
+/* Ripple Effect */
+.btn,
+.btn-frogsy,
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
 }
 
 /* Frogsy Feature Cards */
@@ -614,12 +617,31 @@ body.frogsy-theme .text-bad {
     font-weight: 500;
 }
 
-.frogsy-video-container {
-    margin: 40px auto;
-    /* Reduced margin */
-    box-shadow: 0 30px 60px rgba(0, 77, 64, 0.15);
-    border: 1px solid rgba(77, 182, 172, 0.3);
+.frogsy-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 50px auto;
+    flex-wrap: wrap;
+    max-width: 1100px;
 }
+
+.frogsy-screenshot {
+    max-width: 300px;
+    /* Slightly larger for desktop */
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 20px 50px rgba(0, 77, 64, 0.15));
+}
+
+.frogsy-screenshot:hover {
+    transform: translateY(-8px) scale(1.02);
+    filter: drop-shadow(0 30px 60px rgba(0, 77, 64, 0.25));
+    z-index: 10;
+}
+
+/* --- Content Styling V3 (Minimal) --- */
+/* (Styles removed as per request to match existing typography) */
 
 /* Feature Grid Improvements */
 .frogsy-features {
@@ -727,10 +749,14 @@ body.frogsy-theme .text-bad {
         /* Ensure lateral padding */
     }
 
-    .frogsy-video-container {
+    .frogsy-showcase {
+        gap: 20px;
         margin: 30px auto;
-        border-radius: 10px;
-        /* Smaller radius */
+    }
+
+    .frogsy-screenshot {
+        max-width: 240px;
+        box-shadow: 0 10px 30px rgba(0, 77, 64, 0.1);
     }
 
     .frogsy-features-section {
